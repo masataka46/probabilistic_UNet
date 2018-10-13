@@ -84,14 +84,14 @@ mean_pri, log_var_pri = model.priorNet(x)
 mean_pos, log_var_pos = model.posteriorNet(x, t)
 
 out_learn = model.unet(x, mean_pos, log_var_pos, reuse=False)
-out_infer = model.unet(x, mean_pri, log_var_pri, reuse=True)
+# out_infer = model.unet(x, mean_pri, log_var_pri, reuse=True)
 
 with tf.variable_scope("loss"):
     # loss = model.loss(output, y)
     loss = model.loss(mean_pri, log_var_pri, mean_pos, log_var_pos, out_learn, t)
 
-with tf.variable_scope("argmax"):
-    out_argmax = tf.argmax(out_infer, axis=3)
+# with tf.variable_scope("argmax"):
+#     out_argmax = tf.argmax(out_infer, axis=3)
 
 with tf.variable_scope("train"):
     # train_op = tf.train.GradientDescentOptimizer(0.05).minimize(loss)
@@ -141,7 +141,7 @@ with tf.Session() as sess:
             # img_batch2 = datasets.get_data_for_1_batch_val(0, 6)
             # print("img_batch.shape, ", img_batch.shape)
 
-            output_1 = sess.run(out_infer, feed_dict={x: img_batch, is_training: False})
+            output_1 = sess.run(out_learn, feed_dict={x: img_batch, is_training: False})
             # output_2 = sess.run(output, feed_dict={x: img_batch2, is_training: False})
 
             util.make_output_img(img_batch, segs, output_1, EPOCH, args.log_file_name, OUT_IMG_DIR)

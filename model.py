@@ -319,7 +319,7 @@ class PUNet(object): # variational auto-encoder model
 
             with tf.variable_scope("last_conv"):
                 con_last = tf.concat([deconv_5_relu, z_chan], axis=3)
-                conv_last = self.conv2d(con_last, self.BASE_CHANNEL + self.CODE_DIMENTION, self.CLASS_CHANNEL, self.CONV_FILTER_SIZE1,
+                conv_last = self.conv2d(deconv_5_relu, self.BASE_CHANNEL, self.CLASS_CHANNEL, self.CONV_FILTER_SIZE1,
                                     1, self.SEED)
                 out_mask = tf.nn.softmax(conv_last)
 
@@ -354,7 +354,7 @@ class PUNet(object): # variational auto-encoder model
         # vae_cost = tf.reduce_mean(0.5 *(tf.square(mean) + tf.exp(log_var) - log_var - 1.0))
         print("tar.get_shape(), ", tar.get_shape())
         print("pred.get_shape(), ", pred.get_shape())
-        recon_cost = tf.reduce_mean(tf.multiply(tar, tf.log(tf.clip_by_value(pred, 1e-10, 1.0))))
+        recon_cost = - tf.reduce_mean(tf.multiply(tar, tf.log(tf.clip_by_value(pred, 1e-10, 1.0))))
         # recon_cost = tf.reduce_mean((x - x_recon)**2)
         cost = recon_cost + self.KL_BETA * vae_cost
         return cost
