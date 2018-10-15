@@ -29,7 +29,7 @@ def parser():
 args = parser()
 
 BASE_CHANNEL = 32
-CODE_DIM = 1000
+CODE_DIM = 6
 SEED = 2018
 np.random.seed(SEED)
 IMG_H = 128
