@@ -2,6 +2,7 @@ import numpy as np
 import os
 import random
 from PIL import Image
+import cv2
 
 class Make_datasets_CityScape():
     def __init__(self, base_dir, img_width, img_height, image_dir, seg_dir, image_val_dir, seg_val_dir,
@@ -100,37 +101,37 @@ class Make_datasets_CityScape():
         images = []
         for num, filename in enumerate(filename_list):
             if seg_flag:
-
                 _ , dir_name, file_name_only = filename.rsplit("/", 2)
-                # _, file_name_only = filename.rsplit("/", 1)
-
                 str_base, _ = file_name_only.rsplit("_",1)
-
                 filename_seg = str_base + "_gtFine_oneHotQua.npy"
-
                 npy_ori = np.load(dir + dir_name + '/' + filename_seg)
-                # npy_ori = np.load(dir +'/' + filename_seg)
-                # print("npy_ori.shape, ", npy_ori.shape)
+                # print("np.max(npy_ori), ", np.max(npy_ori))
+                # print("np.min(npy_ori), ", np.min(npy_ori))
 
+                # print("npy_ori.shape,", npy_ori.shape)
+                # print("npy_ori.dtype, ", npy_ori.dtype)
+                # #debug
+                # npy_ori_debug = npy_ori[:,:,:3].astype(np.uint8)
+                # print("npy_ori_debug.shape, ", npy_ori_debug.shape)
+                # npy_resize_debug = cv2.resize(npy_ori_debug, (width_be_crop, height_be_crop))
+                # print("npy_resize_debug.shape, ", npy_resize_debug.shape)
             else:
-                # pilIn = Image.open(dir + filename)
+
                 pilIn = Image.open(filename)
-
-
-            # image = np.asarray(pilResize, dtype=np.float32)
 
             if seg_flag:
                 if crop_flag:
-                    downsample_H = self.cityScapeData_H // height_be_crop
-                    downsample_W = self.cityScapeData_W // width_be_crop
-                    npy_resize = npy_ori[::downsample_H, ::downsample_W]
+                    # downsample_H = self.cityScapeData_H // height_be_crop
+                    # downsample_W = self.cityScapeData_W // width_be_crop
+                    # npy_resize = npy_ori[::downsample_H, ::downsample_W]
+                    npy_resize = cv2.resize(npy_ori.astype(np.uint8), (width_be_crop, height_be_crop))
                     npy_Resize = npy_resize[margin_H_batch[num]:height + margin_H_batch[num], margin_W_batch[num]:width + margin_W_batch[num]]
-                    # pilResize = self.crop_img(pilIn, width, height, margin_W_batch[num], margin_H_batch[num])
-                    # print("pilResize.size", pilResize.size)
+
                 else:
-                    downsample_H = self.cityScapeData_H // height
-                    downsample_W = self.cityScapeData_W // width
-                    npy_Resize = npy_ori[::downsample_H, ::downsample_W]
+                    # downsample_H = self.cityScapeData_H // height
+                    # downsample_W = self.cityScapeData_W // width
+                    # npy_Resize = npy_ori[::downsample_H, ::downsample_W]
+                    npy_Resize = cv2.resize(npy_ori.astype(np.uint8), (width, height))
                     # pilResize = pilIn.resize((width, height))
                 image = npy_Resize.astype(np.float32)
                 # image = image[:,:,:3]
