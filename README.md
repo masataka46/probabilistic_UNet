@@ -14,5 +14,8 @@ I confirmed operation only with..
 3)numpy 1.14.2    
 4)Pillow 4.3.0  
 
+# TODO  
+metrics and etc....  
+
 # email  
 t.ohmasa@w-farmer.com  
