@@ -309,7 +309,7 @@ class PUNet(object): # variational auto-encoder model
 
             with tf.variable_scope("sample_z"):
                 eps = tf.random_normal(tf.shape(log_var), dtype=tf.float32, mean=0, stddev=1.0)
-                z = mean + tf.exp(log_var / 2.0) * eps
+                z = mean + tf.exp(log_var) * eps
                 shape_ones = tf.stack([tf.shape(input_data)[0], tf.shape(input_data)[1], tf.shape(input_data)[2],
                                        tf.shape(z)[1]])
                 ones = tf.ones(shape_ones, tf.float32)
@@ -358,6 +358,7 @@ class PUNet(object): # variational auto-encoder model
         # recon_cost = tf.reduce_mean((x - x_recon)**2)
         cost = recon_cost + self.KL_BETA * vae_cost
         return cost
+
 
 
 

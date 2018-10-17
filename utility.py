@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 import csv
 
 cityScape_color_chan = np.array([
-            [0.0, 0.0, 0.0],#0
+            [255.0, 0.0, 0.0],#0
             [0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0],
@@ -98,6 +98,7 @@ def make_output_img(img_batch, segs, pred, epoch, log_file_name, out_img_dir):#
 
 
     wide_image_PIL.save(out_img_dir + "/resultImage_" + log_file_name + '_' + str(epoch) + ".png")
+
 
 def cal_learning_rate_with_thr(init_lr, epoch, thr, descend_number):
     lr = init_lr / (2**(epoch // descend_number))
