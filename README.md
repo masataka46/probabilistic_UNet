@@ -30,4 +30,4 @@ after 100 epochs, I have predicted CityScape test datasets.
 and, predict 1 test image changing latent z.  
 
 ![resultimage_181019mod04_p20_diff_z__150](https://user-images.githubusercontent.com/15444879/47248191-9c997480-d443-11e8-97a3-e03b211cb1a2.png)  
-but...result is not desirable....  
+
